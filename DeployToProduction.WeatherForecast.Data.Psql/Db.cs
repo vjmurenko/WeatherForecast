@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Data;
+using System.Reflection;
 
 namespace DeployToProduction.WeatherForecast.Data.Psql
 {
@@ -19,9 +20,37 @@ namespace DeployToProduction.WeatherForecast.Data.Psql
                 .LogToConsole()
                 .Build();
 
+            WaitDatabaseConnectionReady();
+
             var result = upgrader.PerformUpgrade();
 
             return result.Successful;
+        }
+
+        private void WaitDatabaseConnectionReady()
+        {
+            do
+            {
+                using var connection = new Npgsql.NpgsqlConnection(_connectionString);
+                try
+                {
+                    connection.Open();
+
+                    if (connection.State == ConnectionState.Open)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Thread.Sleep(500);
+                    }
+                }
+                catch
+                {
+                    Thread.Sleep(100);
+                }
+
+            } while (true);
         }
     }
 }
