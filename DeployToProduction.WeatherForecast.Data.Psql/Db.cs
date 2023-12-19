@@ -47,7 +47,7 @@ namespace DeployToProduction.WeatherForecast.Data.Psql
                 }
                 catch
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(500);
                 }
 
             } while (true);
