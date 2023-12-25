@@ -1,0 +1,26 @@
+version: "3.9"
+
+networks:
+  weather-forecast-net:
+
+services:
+  app:
+    container_name: weather-forecast-dev
+    image: weather-forecast-img
+    build:
+      dockerfile: Dockerfile.app
+      context: .
+    networks:
+      - weather-forecast-net
+    ports:
+      - 5050:80
+    environment:
+      ConnectionStrings__Postgres: "Host=weather-forecast-postgres;Database=postgres;Username=postgres;password=postgres"
+      ConnectionStrings__Redis: "weather-forecast-redis:6379"
+      ASPNETCORE_ENVIRONMENT: Development
+      DOTNET_PRINT_TELEMETRY_MESSAGE: "false"
+    depends_on:
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started

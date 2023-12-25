@@ -18,9 +18,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE5DC05D-520E-4422-BF50-08127815D2EA}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
-		docker-compose.yml = docker-compose.yml
-		Dockerfile = Dockerfile
+		docker-compose.db.yml = docker-compose.db.yml
+		Dockerfile.app = Dockerfile.app
+		docker-compose.prod.yml = docker-compose.prod.yml
+		Dockerfile.setup = Dockerfile.setup
 		README.md = README.md
+		docker-compose.setup.yml = docker-compose.setup.yml
+		docker-compose.dev.yml = docker-compose.dev.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeployToProduction.WeatherForecast.App.UITests", "Tests\DeployToProduction.WeatherForecast.App.UITests\DeployToProduction.WeatherForecast.App.UITests.csproj", "{E4CB311B-561F-45FB-BC40-81C11465F698}"
@@ -28,6 +32,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeployToProduction.WeatherForecast.Data.Redis", "DeployToProduction.WeatherForecast.Data.Redis\DeployToProduction.WeatherForecast.Data.Redis.csproj", "{3BF21857-FEF2-4B96-A51F-E4CF9842B1A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeployToProduction.WeatherForecast.Data.Redis.IntegrationTests", "Tests\DeployToProduction.WeatherForecast.Data.Redis.IntegrationTests\DeployToProduction.WeatherForecast.Data.Redis.IntegrationTests.csproj", "{6A1A8ABF-8631-460F-BEB1-2FD4C77551EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeployToProduction.WeatherForecast.Data.Psql.Setup", "DeployToProduction.WeatherForecast.Data.Psql.Setup\DeployToProduction.WeatherForecast.Data.Psql.Setup.csproj", "{DD7D0F46-50F7-44CA-B82C-17530847DA41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +73,10 @@ Global
 		{6A1A8ABF-8631-460F-BEB1-2FD4C77551EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A1A8ABF-8631-460F-BEB1-2FD4C77551EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A1A8ABF-8631-460F-BEB1-2FD4C77551EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD7D0F46-50F7-44CA-B82C-17530847DA41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD7D0F46-50F7-44CA-B82C-17530847DA41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD7D0F46-50F7-44CA-B82C-17530847DA41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD7D0F46-50F7-44CA-B82C-17530847DA41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

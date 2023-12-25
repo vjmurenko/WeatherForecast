@@ -1,6 +1,6 @@
+using Ductus.FluentDocker.Builders;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
-using Ductus.FluentDocker.Builders;
 
 namespace DeployToProduction.WeatherForecast.App.UITests;
 
@@ -8,18 +8,19 @@ namespace DeployToProduction.WeatherForecast.App.UITests;
 public class WeatherForecastAppTests
 {
     [TestMethod]
-    public  void Generate_RandomWeather()
+    public void Generate_RandomWeather()
     {
-       
         var solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName;
-        var filePath = Path.Combine(solutionDirectory, "docker-compose.yml");
-
+        var composeDb = Path.Combine(solutionDirectory, "docker-compose.db.yml");
+        var composeDev = Path.Combine(solutionDirectory, "docker-compose.dev.yml");
         using (var svc = new Builder()
                    .UseContainer()
                    .UseCompose()
-                   .FromFile(filePath)
+                   .FromFile(composeDev)
+                   .FromFile(composeDb)
                    .RemoveOrphans()
-                   .Build().Start())
+                   .Build()
+                   .Start())
 
         {
             var driver = new EdgeDriver();
@@ -37,6 +38,7 @@ public class WeatherForecastAppTests
             {
                 driver.Quit();
                 driver.Dispose();
+                svc.Remove();
                 svc.Stop();
             }
         }

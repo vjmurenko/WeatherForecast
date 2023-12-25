@@ -16,7 +16,7 @@
 
         public string Fahrenheit()
         {
-            return $"{Value * 9/5 + 32} °F";
+            return $"{Value * 9 / 5 + 32} °F";
         }
     }
 }

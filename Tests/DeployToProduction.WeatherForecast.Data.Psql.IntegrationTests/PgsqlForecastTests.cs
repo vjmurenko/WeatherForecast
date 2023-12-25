@@ -1,45 +1,43 @@
-﻿namespace DeployToProduction.WeatherForecast.Data.Psql.IntegrationTests
+﻿using DeployToProduction.WeatherForecast.Data.Psql;
+
+[TestClass]
+public class PgsqlForecastTest
 {
-    [TestClass]
-    public class PgsqlForecastTests
+    [TestMethod]
+    public async Task PredictAsync_ReturnSameResult_ForSameLocations()
     {
-        [TestMethod]
-        public async Task PredictAsync_ReturnTheSameWeather_OnRepeatLocation()
+        var containerName = Guid.NewGuid().ToString("D");
+        var container = new TestcontainersBuilder<PostgreSqlTestcontainer>()
+             .WithName(containerName)
+             .WithDatabase(new PostgreSqlTestcontainerConfiguration()
+             {
+                 Username = "postgres",
+                 Password = "postgres",
+                 Port = 5432,
+                 Database = "weather"
+             })
+              .Build();
+        try
         {
-            var userName = "postgres";
-            var password = "postgres";
-
-            var containerName = Guid.NewGuid().ToString("D");
-
-            var container = new TestcontainersBuilder<PostgreSqlTestcontainer>()
-                .WithName(containerName)
-                .WithDatabase(new PostgreSqlTestcontainerConfiguration
-                {
-                    Database = "weather",
-                    Username = userName,
-                    Password = password,
-                    Port = 5432
-                })
-                .Build();
-
             await container.StartAsync().ConfigureAwait(false);
 
-            try
-            {
-                new Db(container.ConnectionString).Setup();
+            new Db(container.ConnectionString).Setup();
 
-                var forecast = new PgsqlForecast(container.ConnectionString);
+            var connectionString = container.ConnectionString
+            .Replace("User Id=postgres", "User Id=webapp")
+            .Replace("Password=postgres", "Password=webappPASSWORD");
 
-                var weather1 = await forecast.PredictAsync("Moscow");
-                var weather2 = await forecast.PredictAsync("Moscow");
+            var forecast = new PgsqlForecast(connectionString);
+            var weather1 = await forecast.PredictAsync("Sydney");
+            var weather2 = await forecast.PredictAsync("Sydney");
 
-                Assert.AreEqual(weather1.Temperature.Value, weather2.Temperature.Value);
-                Assert.AreEqual(weather1.Kind.Code, weather2.Kind.Code);
-            }
-            finally
-            {
-                await container.DisposeAsync().ConfigureAwait(false);
-            }
+            Assert.AreEqual(weather1.Temperature.Value, weather2.Temperature.Value);
+            Assert.AreEqual(weather1.Kind.Code, weather2.Kind.Code);
+
+        }
+        finally
+        {
+            await container.DisposeAsync().ConfigureAwait(false);
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeployToProduction.WeatherForecast.Core.Models
+﻿namespace DeployToProduction.WeatherForecast.Core.Models
 {
     public interface IWeather
     {

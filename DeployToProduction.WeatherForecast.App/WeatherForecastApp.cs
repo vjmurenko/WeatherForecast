@@ -12,8 +12,6 @@ namespace DeployToProduction.WeatherForecast.App
             var builder = WebApplication.CreateBuilder(args);
 
             var pgsqlConnectionString = builder.Configuration.GetConnectionString("Postgres")!;
-            new Db(pgsqlConnectionString).Setup();
-
             var redisConnectionString = builder.Configuration.GetConnectionString("Redis")!;
 
             // Add services to the container.
@@ -26,6 +24,12 @@ namespace DeployToProduction.WeatherForecast.App
             });
 
             var app = builder.Build();
+
+
+            if (app.Environment.IsDevelopment())
+            {
+                new Db(pgsqlConnectionString).Setup();
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

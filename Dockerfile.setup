@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
+COPY . ./
+
+RUN dotnet publish DeployToProduction.WeatherForecast.Data.Psql.Setup --configuration Release -o out
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
+EXPOSE 80
+
+COPY --from=build /out .
+
+ENTRYPOINT ["dotnet", "DeployToProduction.WeatherForecast.Data.Psql.Setup.dll"]
