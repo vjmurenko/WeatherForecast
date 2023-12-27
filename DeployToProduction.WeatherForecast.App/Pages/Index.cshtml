@@ -37,5 +37,10 @@
             </span>
         </p>
     }
-
+    @if (Model.AddPost != null)
+    {
+        <p>
+          <a target="_blank" href="@Model.AddPost.Href">@Model.AddPost.Message</a>  
+        </p>
+    }
 </div>

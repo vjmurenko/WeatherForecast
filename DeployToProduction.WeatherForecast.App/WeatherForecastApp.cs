@@ -23,6 +23,8 @@ namespace DeployToProduction.WeatherForecast.App
                 return forecast;
             });
 
+            builder.Services.AddTransient<IAddService>(s => new AddService(builder.Configuration.GetConnectionString("AddUrl")));
+
             var app = builder.Build();
 
 
